@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class StaticWindow {
 
-    public static void window(){
+    public static void window() {
         JFrame window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
@@ -16,5 +16,7 @@ public class StaticWindow {
 
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        gamePanel.startGameThread();
     }
 }
