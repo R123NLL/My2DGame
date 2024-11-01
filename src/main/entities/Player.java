@@ -12,17 +12,24 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    public final int screenX;
+    public final int screenY;
+
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+
+        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
+        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gamePanel.tileSize * 23;
+        worldY = gamePanel.tileSize * 21;
         speed = 2;
         direction = "down";
     }
@@ -46,24 +53,31 @@ public class Player extends Entity {
 
     public void update() { //method updates 60 times per second
         if (keyHandler.upPressed == true || keyHandler.downPressed == true ||
-                keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
+                keyHandler.leftPressed == true || keyHandler.rightPressed == true || keyHandler.shiftPressed == true) {
 
             if (keyHandler.upPressed == true) {
                 direction = "up";
-                y -= speed;
+                worldY -= speed;
             }
             if (keyHandler.downPressed == true) {
                 direction = "down";
-                y += speed;
+                worldY += speed;
             }
             if (keyHandler.leftPressed == true) {
                 direction = "left";
-                x -= speed;
+                worldX -= speed;
             }
             if (keyHandler.rightPressed == true) {
                 direction = "right";
-                x += speed;
+                worldX += speed;
             }
+            if (keyHandler.shiftPressed == true) {
+                speed = 5;
+            }
+            if (keyHandler.shiftPressed == false) {
+                speed = 2;
+            }
+
 
             spriteCounter++;
             if (spriteCounter > 15) { //player image changes in every 15 frames
@@ -115,6 +129,6 @@ public class Player extends Entity {
                 }
                 break;
         }
-        graphics2D.drawImage(image, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }
