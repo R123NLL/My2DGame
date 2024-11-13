@@ -3,6 +3,7 @@ package main.window;
 import main.entities.Player;
 import main.keyboard.KeyHandler;
 import main.tiles.TileManager;
+import main.tools.CollisionChecker;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,9 +28,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     //FPS
     int fps = 60;
-    TileManager tileManager = new TileManager(this);
+    public TileManager tileManager = new TileManager(this);
     KeyHandler keyHandler = new KeyHandler();
     Thread gameThread;
+    public CollisionChecker collisionChecker = new CollisionChecker(this);
     public Player player = new Player(this, keyHandler);
 
     public GamePanel() {

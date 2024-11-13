@@ -23,6 +23,13 @@ public class Player extends Entity {
         screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
         screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
 
+        //collision area of player
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
+
         setDefaultValues();
         getPlayerImage();
     }
@@ -53,29 +60,38 @@ public class Player extends Entity {
 
     public void update() { //method updates 60 times per second
         if (keyHandler.upPressed == true || keyHandler.downPressed == true ||
-                keyHandler.leftPressed == true || keyHandler.rightPressed == true || keyHandler.shiftPressed == true) {
+                keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
 
             if (keyHandler.upPressed == true) {
                 direction = "up";
-                worldY -= speed;
             }
             if (keyHandler.downPressed == true) {
                 direction = "down";
-                worldY += speed;
             }
             if (keyHandler.leftPressed == true) {
                 direction = "left";
-                worldX -= speed;
             }
             if (keyHandler.rightPressed == true) {
                 direction = "right";
-                worldX += speed;
             }
             if (keyHandler.shiftPressed == true) {
-                speed = 5;
+                speed = 4;
             }
             if (keyHandler.shiftPressed == false) {
                 speed = 2;
+            }
+
+            //Check tile collision
+            collisionOn = false;
+            gamePanel.collisionChecker.checkTile(this);
+
+            if(collisionOn == false){
+                switch (direction){
+                    case "up": worldY -= speed; break;
+                    case"down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
             }
 
 
