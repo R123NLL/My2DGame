@@ -12,17 +12,31 @@ public class Player extends Entity {
     GamePanel gamePanel;
     KeyHandler keyHandler;
 
+    public final int screenX;
+    public final int screenY;
+
+
     public Player(GamePanel gamePanel, KeyHandler keyHandler) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandler;
+
+        screenX = gamePanel.screenWidth / 2 - (gamePanel.tileSize / 2);
+        screenY = gamePanel.screenHeight / 2 - (gamePanel.tileSize / 2);
+
+        //collision area of player
+        solidArea = new Rectangle();
+        solidArea.x = 8;
+        solidArea.y = 16;
+        solidArea.width = 32;
+        solidArea.height = 32;
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gamePanel.tileSize * 23;
+        worldY = gamePanel.tileSize * 21;
         speed = 2;
         direction = "down";
     }
@@ -50,20 +64,36 @@ public class Player extends Entity {
 
             if (keyHandler.upPressed == true) {
                 direction = "up";
-                y -= speed;
             }
             if (keyHandler.downPressed == true) {
                 direction = "down";
-                y += speed;
             }
             if (keyHandler.leftPressed == true) {
                 direction = "left";
-                x -= speed;
             }
             if (keyHandler.rightPressed == true) {
                 direction = "right";
-                x += speed;
             }
+            if (keyHandler.shiftPressed == true) {
+                speed = 4;
+            }
+            if (keyHandler.shiftPressed == false) {
+                speed = 2;
+            }
+
+            //Check tile collision
+            collisionOn = false;
+            gamePanel.collisionChecker.checkTile(this);
+
+            if(collisionOn == false){
+                switch (direction){
+                    case "up": worldY -= speed; break;
+                    case"down": worldY += speed; break;
+                    case "left": worldX -= speed; break;
+                    case "right": worldX += speed; break;
+                }
+            }
+
 
             spriteCounter++;
             if (spriteCounter > 15) { //player image changes in every 15 frames
@@ -115,6 +145,6 @@ public class Player extends Entity {
                 }
                 break;
         }
-        graphics2D.drawImage(image, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+        graphics2D.drawImage(image, screenX, screenY, gamePanel.tileSize, gamePanel.tileSize, null);
     }
 }
