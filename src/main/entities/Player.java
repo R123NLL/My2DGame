@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Player extends Entity {
     GamePanel gamePanel;
@@ -44,14 +45,14 @@ public class Player extends Entity {
     public void getPlayerImage() {
 
         try {
-            up1 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_up_1.png"));
-            up2 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_up_2.png"));
-            down1 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_down_1.png"));
-            down2 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_down_2.png"));
-            left1 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_left_1.png"));
-            left2 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_left_2.png"));
-            right1 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_right_1.png"));
-            right2 = ImageIO.read(getClass().getResourceAsStream("/player/Walking sprites/boy_right_2.png"));
+            up1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_up_1.png")));
+            up2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_up_2.png")));
+            down1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_down_1.png")));
+            down2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_down_2.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_left_1.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_left_2.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_right_1.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/player/Walking sprites/boy_right_2.png")));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,25 +60,25 @@ public class Player extends Entity {
     }
 
     public void update() { //method updates 60 times per second
-        if (keyHandler.upPressed == true || keyHandler.downPressed == true ||
-                keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
+        if (keyHandler.upPressed || keyHandler.downPressed ||
+                keyHandler.leftPressed || keyHandler.rightPressed) {
 
-            if (keyHandler.upPressed == true) {
+            if (keyHandler.upPressed) {
                 direction = "up";
             }
-            if (keyHandler.downPressed == true) {
+            if (keyHandler.downPressed) {
                 direction = "down";
             }
-            if (keyHandler.leftPressed == true) {
+            if (keyHandler.leftPressed) {
                 direction = "left";
             }
-            if (keyHandler.rightPressed == true) {
+            if (keyHandler.rightPressed) {
                 direction = "right";
             }
-            if (keyHandler.shiftPressed == true) {
+            if (keyHandler.shiftPressed) {
                 speed = 4;
             }
-            if (keyHandler.shiftPressed == false) {
+            if (!keyHandler.shiftPressed) {
                 speed = 2;
             }
 
@@ -85,7 +86,7 @@ public class Player extends Entity {
             collisionOn = false;
             gamePanel.collisionChecker.checkTile(this);
 
-            if(collisionOn == false){
+            if(!collisionOn){
                 switch (direction){
                     case "up": worldY -= speed; break;
                     case"down": worldY += speed; break;
@@ -108,8 +109,7 @@ public class Player extends Entity {
     }
 
     public void draw(Graphics2D graphics2D) {
-//        graphics2D.setColor(Color.white);
-//        graphics2D.fillRect(x, y, gamePanel.tileSize, gamePanel.tileSize);}
+
         BufferedImage image = null;
         switch (direction) {
             case "up":
