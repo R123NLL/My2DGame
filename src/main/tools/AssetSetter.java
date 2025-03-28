@@ -1,5 +1,6 @@
 package main.tools;
 
+import main.object.OBJ_Boots;
 import main.object.OBJ_Chest;
 import main.object.OBJ_Door;
 import main.object.OBJ_Key;
@@ -39,6 +40,10 @@ public class AssetSetter {
         gamePanel.obj[6] = new OBJ_Chest();
         gamePanel.obj[6].worldX = 10 * gamePanel.tileSize;
         gamePanel.obj[6].worldY = 7 * gamePanel.tileSize;
+
+        gamePanel.obj[7] = new OBJ_Boots();
+        gamePanel.obj[7].worldX = 37 * gamePanel.tileSize;
+        gamePanel.obj[7].worldY = 42 * gamePanel.tileSize;
     }
 
 }

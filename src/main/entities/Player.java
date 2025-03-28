@@ -15,6 +15,8 @@ public class Player extends Entity {
     public final int screenX;
     public final int screenY;
 
+    int defaultSpeed = 2;
+
     int hasKey = 0;
 
 
@@ -42,6 +44,7 @@ public class Player extends Entity {
         worldX = gamePanel.tileSize * 23;
         worldY = gamePanel.tileSize * 21;
         speed = 2;
+        sprintSpeed=4;
         direction = "down";
     }
 
@@ -79,10 +82,10 @@ public class Player extends Entity {
                 direction = "right";
             }
             if (keyHandler.shiftPressed == true) {
-                speed = 4;
+                speed = sprintSpeed;
             }
             if (keyHandler.shiftPressed == false) {
-                speed = 2;
+                speed = defaultSpeed;
             }
 
 
@@ -129,16 +132,24 @@ public class Player extends Entity {
             String objectName = gamePanel.obj[index].name;
             switch (objectName){
                 case "Key":
-                    hasKey++;
                     gamePanel.obj[index] = null;
+                    gamePanel.playSE(1);
+                    hasKey++;
                     System.out.println("Keys: "+ hasKey);
                     break;
                 case "Door":
                     if (hasKey > 0 ){
+                        gamePanel.playSE(3);
                         gamePanel.obj[index] = null;
                         hasKey--;
                     }
                     System.out.println("Keys: "+ hasKey);
+                    break;
+                case "Boots":
+                    gamePanel.playSE(2);
+                    defaultSpeed +=2;
+                    sprintSpeed +=2;
+                    gamePanel.obj[index] = null;
                     break;
             }
         }
