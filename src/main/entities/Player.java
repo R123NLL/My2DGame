@@ -82,6 +82,7 @@ public class Player extends Entity {
             if (keyHandler.shiftPressed == false) {
                 speed = 2;
             }
+            //dsf
 
             //Check tile collision
             collisionOn = false;
